@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology Quiz</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+.quiz-container {
+    margin-top: 50px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.question {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.options {
+    margin-bottom: 20px;
+}
+
+.options button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.options button:hover {
+    background-color: #e9ecef;
+}
+
+.timer {
+    font-size: 1.2rem;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.feedback {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+#next-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+    </style>
+</head>
+<body>
+    <div class="container-fluid quiz-container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-10">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>Biology Quiz</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="quiz-question" class="question"></div>
+                        <div id="quiz-options" class="options"></div>
+                        <div id="quiz-timer" class="timer"></div>
+                        <div id="quiz-feedback" class="feedback"></div>
+                    </div>
+                    <div class="card-footer">
+                        <button id="next-btn" class="btn btn-success" disabled>Next Question</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script >
+            $(document).ready(function () {
+    const questions = [
+        {
+            question: "What is the primary function of carbohydrates in the cell?",
+            options: ["Energy storage", "Structural support", "Enzyme activation", "Signal transduction"],
+            answer: "Energy storage"
+        },
+        {
+            question: "Which of the following is a macronutrient?",
+            options: ["Iron", "Zinc", "Nitrogen", "Copper"],
+            answer: "Nitrogen"
+        },
+        {
+            question: "What is the process of water movement across a selectively permeable membrane called?",
+            options: ["Diffusion", "Osmosis", "Active transport", "Imbibition"],
+            answer: "Osmosis"
+        },
+        {
+            question: "Which of the following is a function of the stem?",
+            options: ["Photosynthesis", "Water absorption", "Support", "Reproduction"],
+            answer: "Support"
+        },
+        {
+            question: "What is the main function of xylem?",
+            options: ["Transport of sugars", "Transport of water", "Photosynthesis", "Storage"],
+            answer: "Transport of water"
+        },
+        {
+            question: "Which of the following is a type of RNA involved in protein synthesis?",
+            options: ["mRNA", "tRNA", "rRNA", "All of the above"],
+            answer: "All of the above"
+        },
+        {
+            question: "What is the function of stomata?",
+            options: ["Gas exchange", "Water absorption", "Photosynthesis", "Nutrient transport"],
+            answer: "Gas exchange"
+        },
+        {
+            question: "Which of the following is a function of roots?",
+            options: ["Photosynthesis", "Anchorage", "Reproduction", "All of the above"],
+            answer: "Anchorage"
+        },
+        {
+            question: "What is the primary function of the cell membrane?",
+            options: ["Energy production", "Structural support", "Regulation of substances", "Protein synthesis"],
+            answer: "Regulation of substances"
+        },
+        {
+            question: "Which of the following is a function of the nucleus?",
+            options: ["Energy production", "Storage of genetic material", "Protein synthesis", "Photosynthesis"],
+            answer: "Storage of genetic material"
+        },
+        {
+            question: "What is the main function of the mitochondria?",
+            options: ["Protein synthesis", "Energy production", "Photosynthesis", "Storage"],
+            answer: "Energy production"
+        },
+        {
+            question: "Which of the following is a function of the ribosome?",
+            options: ["Energy production", "Protein synthesis", "Photosynthesis", "Storage"],
+            answer: "Protein synthesis"
+        },
+        {
+            question: "What is the function of the chloroplast?",
+            options: ["Energy production", "Protein synthesis", "Photosynthesis", "Storage"],
+            answer: "Photosynthesis"
+        },
+        {
+            question: "Which of the following is a function of the vacuole?",
+            options: ["Energy production", "Protein synthesis", "Storage", "Photosynthesis"],
+            answer: "Storage"
+        },
+        {
+            question: "What is the function of the endoplasmic reticulum?",
+            options: ["Energy production", "Protein synthesis", "Photosynthesis", "Storage"],
+            answer: "Protein synthesis"
+        },
+        {
+            question: "Which of the following is a function of the Golgi apparatus?",
+            options: ["Energy production", "Protein synthesis", "Photosynthesis", "Storage"],
+            answer: "Storage"
+        },
+        {
+            question: "What is the function of the lysosome?",
+            options: ["Energy production", "Protein synthesis", "Photosynthesis", "Storage"],
+            answer: "Storage"
+        },
+        {
+            question: "Which of the following is a function of the cytoskeleton?",
+            options: ["Energy production", "Protein synthesis", "Structural support", "Photosynthesis"],
+            answer: "Structural support"
+        },
+        {
+            question: "What is the function of the cell wall?",
+            options: ["Energy production", "Protein synthesis", "Structural support", "Photosynthesis"],
+            answer: "Structural support"
+        },
+        {
+            question: "Which of the following is a function of the nucleolus?",
+            options: ["Energy production", "Protein synthesis", "Photosynthesis", "Storage"],
+            answer: "Protein synthesis"
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timeLeft = 15;
+    let timer;
+
+    // Shuffle questions
+    questions.sort(() => Math.random() - 0.5);
+
+    function displayQuestion() {
+        const question = questions[currentQuestionIndex];
+        $("#quiz-question").text(question.question);
+        $("#quiz-options").empty();
+        question.options.forEach(option => {
+            $("#quiz-options").append(`<button class="btn btn-option">${option}</button>`);
+        });
+        startTimer();
+    }
+
+    function startTimer() {
+        timeLeft = 15;
+        $("#quiz-timer").text(`Time left: ${timeLeft} seconds`);
+        timer = setInterval(() => {
+            timeLeft--;
+            $("#quiz-timer").text(`Time left: ${timeLeft} seconds`);
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                handleTimeOut();
+            }
+        }, 1000);
+    }
+
+    function handleTimeOut() {
+        $("#quiz-feedback").text("Time's up! Moving to the next question.");
+        $("#next-btn").prop("disabled", false);
+    }
+
+    function checkAnswer(selectedOption) {
+        const question = questions[currentQuestionIndex];
+        if (selectedOption === question.answer) {
+            score++;
+            $("#quiz-feedback").text("Correct!").css("color", "green");
+        } else {
+            $("#quiz-feedback").text(`Incorrect! The correct answer is: ${question.answer}`).css("color", "red");
+        }
+        clearInterval(timer);
+        $("#next-btn").prop("disabled", false);
+    }
+
+    $(document).on("click", ".btn-option", function () {
+        const selectedOption = $(this).text();
+        checkAnswer(selectedOption);
+    });
+
+    $("#next-btn").click(function () {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+            $("#quiz-feedback").empty();
+            $("#next-btn").prop("disabled", true);
+        } else {
+            endQuiz();
+        }
+    });
+
+    function endQuiz() {
+        $("#quiz-question").text(`Quiz over! Your score is ${score}/${questions.length}`);
+        $("#quiz-options").empty();
+        $("#quiz-timer").empty();
+        $("#quiz-feedback").empty();
+        $("#next-btn").hide();
+    }
+
+    displayQuestion();
+});
+    </script>
+</body>
+</html>
